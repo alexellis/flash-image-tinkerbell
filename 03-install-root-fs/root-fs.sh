@@ -5,11 +5,11 @@ echo "Starting deployment"
 source functions.sh && init
 set -o nounset
 
-BASEURL="http://$MIRROR_HOST/misc/osie/current"
 # assetdir=/tmp/assets
 # mkdir $assetdir
 
-curl -s "$BASEURL/image.img.tgz" --output - |tar -xzvf - > /dev/sda
+BASEURL="http://$MIRROR_HOST/misc/osie/current"
+curl -s "$BASEURL/image.img" --output - > /dev/sda
 
 # wget "$BASEURL/image.img.tgz" -P $assetdir
 # cd $assetdir
