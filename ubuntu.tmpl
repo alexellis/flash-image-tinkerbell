@@ -1,0 +1,19 @@
+version: '0.1'
+name: ubuntu_provisioning
+global_timeout: 6000
+tasks:
+- name: "os-installation"
+  worker: "{{.device_1}}"
+  volumes:
+    - /dev:/dev
+    - /dev/console:/dev/console
+    - /lib/firmware:/lib/firmware:ro
+  actions:
+  - name: "disk-wipe"
+    image: disk-wipe:v1
+    timeout: 90
+  - name: "install-root-fs"
+    image: install-root-fs:v1
+    timeout: 600
+    environment:
+       MIRROR_HOST: 192.168.1.2

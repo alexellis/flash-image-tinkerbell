@@ -1,0 +1,92 @@
+{
+  "id":"$UUID",
+  "network":{
+    "interfaces":[
+      {
+        "dhcp":{
+          "mac":"$MAC",
+          "ip":{
+            "address":"192.168.1.5",
+            "netmask":"255.255.255.248",
+            "gateway":"192.168.1.1"
+          },
+          "arch":"x86_64",
+          "uefi":false
+        },
+        "netboot":{
+          "allow_pxe":true,
+          "allow_workflow":true
+        }
+      }
+    ]
+  },
+  "metadata":{
+    "state":"",
+    "instance": {
+      "operating_system_version": {
+        "distro": "ubuntu",
+        "image_tag": "base",
+        "os_slug": "ubuntu_18_04",
+        "slug": "ubuntu",
+        "version": "18.04"
+      },
+      "storage": {
+        "disks": [
+          {
+            "device": "/dev/sda",
+            "wipeTable": true,
+            "partitions": [
+              {
+                "size": 4096,
+                "label": "BIOS",
+                "number": 1
+              },
+              {
+                "size": 3993600,
+                "label": "SWAP",
+                "number": 2
+              },
+              {
+                "size": 0,
+                "label": "ROOT",
+                "number": 3
+              }
+            ]
+          }
+        ],
+        "filesystems": [
+          {
+            "mount": {
+              "point": "/",
+              "create": {
+                "options": [
+                  "-L",
+                  "ROOT"
+                ]
+              },
+              "device": "/dev/sda3",
+              "format": "ext4"
+            }
+          },
+          {
+            "mount": {
+              "point": "none",
+              "create": {
+                "options": [
+                  "-L",
+                  "SWAP"
+                ]
+              },
+              "device": "/dev/sda2",
+              "format": "swap"
+            }
+          }
+        ]
+      }
+    },
+    "facility":{
+      "plan_slug":"c3.small.x86",
+      "facility_code":"onprem"
+    }
+  }
+}
