@@ -2,7 +2,7 @@
 
 On the provisioner
 
-* Copy image.img.tgz to the web root of nginx
+* Copy `image.img` to the web root of nginx
 
 * Then run:
 
