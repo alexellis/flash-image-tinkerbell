@@ -44,6 +44,11 @@ You should see image.img in: `/vagrant/deploy/state/webroot/misc/osie/current/` 
 
 * Boot up the worker
 
+To run again, you'll need to:
+
+* Create another workflow (run the steps above `tink workflow create`)
+* Then start a fresh VM: `vagrant destroy worker --force && vagrant up worker`
+
 ## Appendix
 
 1) Make an image with Packer and Virtual box (see below)
