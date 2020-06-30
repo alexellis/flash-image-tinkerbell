@@ -1,4 +1,4 @@
 ARG REGISTRY
-FROM $REGISTRY/ubuntu:base
+FROM $REGISTRY/alpine:3.12
 COPY root-fs.sh /
 ENTRYPOINT ["./root-fs.sh"]

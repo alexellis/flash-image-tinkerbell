@@ -2,55 +2,63 @@
 
 On the provisioner
 
-* Copy `image.img` to the web root of nginx
-
 * Then run:
 
-```sh
+```bash
 ./create_images.sh
-```
-
-* Then create the ubuntu.tmpl template with tink-cli
-
-```
-tink template create -n 'ubuntu' -p /tmp/ubuntu.tmpl
 ```
 
 * Now create the hardware entry
 
+```bash
+./generate.sh
+docker cp hw1.json deploy_tink-cli_1:/tmp/
+
+docker exec -ti deploy_tink-cli_1 tink hardware push --file /tmp/hw1.json 
 ```
-tink hardware push --file /tmp/hw1.json 
-```
+
 * Now create a workflow for the entry with the template ID
 
+* Then create the ubuntu.tmpl template with tink-cli
+
+```bash
+docker cp ubuntu.tmpl deploy_tink-cli_1:/tmp/
+
+docker exec -ti deploy_tink-cli_1 tink template create -n 'ubuntu' -p /tmp/ubuntu.tmpl
+```
+
+* Now create a workflow
 ```
 # See the output from Terraform
 export MAC="08:00:27:00:00:01"
 
-# See tink template list
-export TEMPLATE_ID="93de9281-d28a-4e9e-b8d8-8162d197b15f"
-tink workflow create -t "$TEMPLATE_ID" -r '{"device_1": "'$MAC'"}'
+# See "tink template list"
+export TEMPLATE_ID="57342d5c-9fd9-4c09-b45b-cd6a129961a9"
+
+docker exec -ti deploy_tink-cli_1 tink workflow create -t "$TEMPLATE_ID" -r '{"device_1": "'$MAC'"}'
 ```
+
+* Copy `image.img` to the web root of nginx, if you don't have the image see the Packer heading on how to build the image.
+
+You should see image.img in: `/vagrant/deploy/state/webroot/misc/osie/current/` from within the Vagrant provisioner VM.
 
 * Boot up the worker
 
-
 ## Appendix
 
-Make an image with Packer and Virtual box
+1) Make an image with Packer and Virtual box (see below)
 
-Run:
+2) Convert the image to raw format
 
-```
+```bash
 VBoxManage clonehd ./packer-ubuntu-20.04-live-server-1593009318-disk001.vmdk image.img --format raw
 ```
 
-This creates image.img - copy that to misc/osie/current/
-
+3) Move the image to /misc/osie/current/ <- wherever the webroot is for Nginx
 
 ### Packer
 
-```
+```json
 {
   "builders": [
     {

@@ -1,8 +1,8 @@
-#!/bin/bash
+#!/bin/sh
 
 echo "Starting deployment"
 
-source functions.sh && init
+#source functions.sh && init
 set -o nounset
 
 # assetdir=/tmp/assets
